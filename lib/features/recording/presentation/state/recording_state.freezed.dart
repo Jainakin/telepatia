@@ -22,7 +22,7 @@ mixin _$RecordingState {
     required TResult Function() loading,
     required TResult Function(List<RecordingEntity> recordings) success,
     required TResult Function(Exception exception) error,
-    required TResult Function() uploading,
+    required TResult Function(double progress) uploading,
     required TResult Function() uploadSuccess,
     required TResult Function(Exception exception) uploadError,
   }) =>
@@ -33,7 +33,7 @@ mixin _$RecordingState {
     TResult? Function()? loading,
     TResult? Function(List<RecordingEntity> recordings)? success,
     TResult? Function(Exception exception)? error,
-    TResult? Function()? uploading,
+    TResult? Function(double progress)? uploading,
     TResult? Function()? uploadSuccess,
     TResult? Function(Exception exception)? uploadError,
   }) =>
@@ -44,7 +44,7 @@ mixin _$RecordingState {
     TResult Function()? loading,
     TResult Function(List<RecordingEntity> recordings)? success,
     TResult Function(Exception exception)? error,
-    TResult Function()? uploading,
+    TResult Function(double progress)? uploading,
     TResult Function()? uploadSuccess,
     TResult Function(Exception exception)? uploadError,
     required TResult orElse(),
@@ -152,7 +152,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() loading,
     required TResult Function(List<RecordingEntity> recordings) success,
     required TResult Function(Exception exception) error,
-    required TResult Function() uploading,
+    required TResult Function(double progress) uploading,
     required TResult Function() uploadSuccess,
     required TResult Function(Exception exception) uploadError,
   }) {
@@ -166,7 +166,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? loading,
     TResult? Function(List<RecordingEntity> recordings)? success,
     TResult? Function(Exception exception)? error,
-    TResult? Function()? uploading,
+    TResult? Function(double progress)? uploading,
     TResult? Function()? uploadSuccess,
     TResult? Function(Exception exception)? uploadError,
   }) {
@@ -180,7 +180,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? loading,
     TResult Function(List<RecordingEntity> recordings)? success,
     TResult Function(Exception exception)? error,
-    TResult Function()? uploading,
+    TResult Function(double progress)? uploading,
     TResult Function()? uploadSuccess,
     TResult Function(Exception exception)? uploadError,
     required TResult orElse(),
@@ -287,7 +287,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() loading,
     required TResult Function(List<RecordingEntity> recordings) success,
     required TResult Function(Exception exception) error,
-    required TResult Function() uploading,
+    required TResult Function(double progress) uploading,
     required TResult Function() uploadSuccess,
     required TResult Function(Exception exception) uploadError,
   }) {
@@ -301,7 +301,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? loading,
     TResult? Function(List<RecordingEntity> recordings)? success,
     TResult? Function(Exception exception)? error,
-    TResult? Function()? uploading,
+    TResult? Function(double progress)? uploading,
     TResult? Function()? uploadSuccess,
     TResult? Function(Exception exception)? uploadError,
   }) {
@@ -315,7 +315,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? loading,
     TResult Function(List<RecordingEntity> recordings)? success,
     TResult Function(Exception exception)? error,
-    TResult Function()? uploading,
+    TResult Function(double progress)? uploading,
     TResult Function()? uploadSuccess,
     TResult Function(Exception exception)? uploadError,
     required TResult orElse(),
@@ -457,7 +457,7 @@ class _$SuccessImpl implements _Success {
     required TResult Function() loading,
     required TResult Function(List<RecordingEntity> recordings) success,
     required TResult Function(Exception exception) error,
-    required TResult Function() uploading,
+    required TResult Function(double progress) uploading,
     required TResult Function() uploadSuccess,
     required TResult Function(Exception exception) uploadError,
   }) {
@@ -471,7 +471,7 @@ class _$SuccessImpl implements _Success {
     TResult? Function()? loading,
     TResult? Function(List<RecordingEntity> recordings)? success,
     TResult? Function(Exception exception)? error,
-    TResult? Function()? uploading,
+    TResult? Function(double progress)? uploading,
     TResult? Function()? uploadSuccess,
     TResult? Function(Exception exception)? uploadError,
   }) {
@@ -485,7 +485,7 @@ class _$SuccessImpl implements _Success {
     TResult Function()? loading,
     TResult Function(List<RecordingEntity> recordings)? success,
     TResult Function(Exception exception)? error,
-    TResult Function()? uploading,
+    TResult Function(double progress)? uploading,
     TResult Function()? uploadSuccess,
     TResult Function(Exception exception)? uploadError,
     required TResult orElse(),
@@ -629,7 +629,7 @@ class _$ErrorImpl implements _Error {
     required TResult Function() loading,
     required TResult Function(List<RecordingEntity> recordings) success,
     required TResult Function(Exception exception) error,
-    required TResult Function() uploading,
+    required TResult Function(double progress) uploading,
     required TResult Function() uploadSuccess,
     required TResult Function(Exception exception) uploadError,
   }) {
@@ -643,7 +643,7 @@ class _$ErrorImpl implements _Error {
     TResult? Function()? loading,
     TResult? Function(List<RecordingEntity> recordings)? success,
     TResult? Function(Exception exception)? error,
-    TResult? Function()? uploading,
+    TResult? Function(double progress)? uploading,
     TResult? Function()? uploadSuccess,
     TResult? Function(Exception exception)? uploadError,
   }) {
@@ -657,7 +657,7 @@ class _$ErrorImpl implements _Error {
     TResult Function()? loading,
     TResult Function(List<RecordingEntity> recordings)? success,
     TResult Function(Exception exception)? error,
-    TResult Function()? uploading,
+    TResult Function(double progress)? uploading,
     TResult Function()? uploadSuccess,
     TResult Function(Exception exception)? uploadError,
     required TResult orElse(),
@@ -732,6 +732,8 @@ abstract class _$$UploadingImplCopyWith<$Res> {
   factory _$$UploadingImplCopyWith(
           _$UploadingImpl value, $Res Function(_$UploadingImpl) then) =
       __$$UploadingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({double progress});
 }
 
 /// @nodoc
@@ -744,26 +746,52 @@ class __$$UploadingImplCopyWithImpl<$Res>
 
   /// Create a copy of RecordingState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? progress = null,
+  }) {
+    return _then(_$UploadingImpl(
+      progress: null == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$UploadingImpl implements _Uploading {
-  const _$UploadingImpl();
+  const _$UploadingImpl({required this.progress});
+
+  @override
+  final double progress;
 
   @override
   String toString() {
-    return 'RecordingState.uploading()';
+    return 'RecordingState.uploading(progress: $progress)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$UploadingImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$UploadingImpl &&
+            (identical(other.progress, progress) ||
+                other.progress == progress));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, progress);
+
+  /// Create a copy of RecordingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UploadingImplCopyWith<_$UploadingImpl> get copyWith =>
+      __$$UploadingImplCopyWithImpl<_$UploadingImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -772,11 +800,11 @@ class _$UploadingImpl implements _Uploading {
     required TResult Function() loading,
     required TResult Function(List<RecordingEntity> recordings) success,
     required TResult Function(Exception exception) error,
-    required TResult Function() uploading,
+    required TResult Function(double progress) uploading,
     required TResult Function() uploadSuccess,
     required TResult Function(Exception exception) uploadError,
   }) {
-    return uploading();
+    return uploading(progress);
   }
 
   @override
@@ -786,11 +814,11 @@ class _$UploadingImpl implements _Uploading {
     TResult? Function()? loading,
     TResult? Function(List<RecordingEntity> recordings)? success,
     TResult? Function(Exception exception)? error,
-    TResult? Function()? uploading,
+    TResult? Function(double progress)? uploading,
     TResult? Function()? uploadSuccess,
     TResult? Function(Exception exception)? uploadError,
   }) {
-    return uploading?.call();
+    return uploading?.call(progress);
   }
 
   @override
@@ -800,13 +828,13 @@ class _$UploadingImpl implements _Uploading {
     TResult Function()? loading,
     TResult Function(List<RecordingEntity> recordings)? success,
     TResult Function(Exception exception)? error,
-    TResult Function()? uploading,
+    TResult Function(double progress)? uploading,
     TResult Function()? uploadSuccess,
     TResult Function(Exception exception)? uploadError,
     required TResult orElse(),
   }) {
     if (uploading != null) {
-      return uploading();
+      return uploading(progress);
     }
     return orElse();
   }
@@ -859,7 +887,15 @@ class _$UploadingImpl implements _Uploading {
 }
 
 abstract class _Uploading implements RecordingState {
-  const factory _Uploading() = _$UploadingImpl;
+  const factory _Uploading({required final double progress}) = _$UploadingImpl;
+
+  double get progress;
+
+  /// Create a copy of RecordingState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UploadingImplCopyWith<_$UploadingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -907,7 +943,7 @@ class _$UploadSuccessImpl implements _UploadSuccess {
     required TResult Function() loading,
     required TResult Function(List<RecordingEntity> recordings) success,
     required TResult Function(Exception exception) error,
-    required TResult Function() uploading,
+    required TResult Function(double progress) uploading,
     required TResult Function() uploadSuccess,
     required TResult Function(Exception exception) uploadError,
   }) {
@@ -921,7 +957,7 @@ class _$UploadSuccessImpl implements _UploadSuccess {
     TResult? Function()? loading,
     TResult? Function(List<RecordingEntity> recordings)? success,
     TResult? Function(Exception exception)? error,
-    TResult? Function()? uploading,
+    TResult? Function(double progress)? uploading,
     TResult? Function()? uploadSuccess,
     TResult? Function(Exception exception)? uploadError,
   }) {
@@ -935,7 +971,7 @@ class _$UploadSuccessImpl implements _UploadSuccess {
     TResult Function()? loading,
     TResult Function(List<RecordingEntity> recordings)? success,
     TResult Function(Exception exception)? error,
-    TResult Function()? uploading,
+    TResult Function(double progress)? uploading,
     TResult Function()? uploadSuccess,
     TResult Function(Exception exception)? uploadError,
     required TResult orElse(),
@@ -1070,7 +1106,7 @@ class _$UploadErrorImpl implements _UploadError {
     required TResult Function() loading,
     required TResult Function(List<RecordingEntity> recordings) success,
     required TResult Function(Exception exception) error,
-    required TResult Function() uploading,
+    required TResult Function(double progress) uploading,
     required TResult Function() uploadSuccess,
     required TResult Function(Exception exception) uploadError,
   }) {
@@ -1084,7 +1120,7 @@ class _$UploadErrorImpl implements _UploadError {
     TResult? Function()? loading,
     TResult? Function(List<RecordingEntity> recordings)? success,
     TResult? Function(Exception exception)? error,
-    TResult? Function()? uploading,
+    TResult? Function(double progress)? uploading,
     TResult? Function()? uploadSuccess,
     TResult? Function(Exception exception)? uploadError,
   }) {
@@ -1098,7 +1134,7 @@ class _$UploadErrorImpl implements _UploadError {
     TResult Function()? loading,
     TResult Function(List<RecordingEntity> recordings)? success,
     TResult Function(Exception exception)? error,
-    TResult Function()? uploading,
+    TResult Function(double progress)? uploading,
     TResult Function()? uploadSuccess,
     TResult Function(Exception exception)? uploadError,
     required TResult orElse(),

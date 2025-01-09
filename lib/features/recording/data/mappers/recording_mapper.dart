@@ -5,14 +5,21 @@ class RecordingMapper {
   static RecordingEntity toEntity(RecordingModel recording) {
     return RecordingEntity(
       id: recording.id,
-      path: recording.path,
+      size: recording.size,
+      createdAt: recording.createdAt,
+      updatedAt: recording.updatedAt,
+      type: recording.type,
+      downloadUrl: recording.downloadUrl,
     );
   }
 
-  static RecordingModel toModel(RecordingEntity recording) {
-    return RecordingModel(
-      id: recording.id,
-      path: recording.path,
-    );
-  }
+  // static RecordingModel toModel(RecordingEntity recording) {
+  //   return RecordingModel(
+  //     id: recording.id,
+  //     size: recording.size,
+  //     createdAt: recording.createdAt,
+  //     updatedAt: recording.updatedAt,
+  //     type: recording.type,
+  //   );
+  // }
 }

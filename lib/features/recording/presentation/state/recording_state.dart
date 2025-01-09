@@ -12,7 +12,8 @@ class RecordingState with _$RecordingState {
       _Success;
   const factory RecordingState.error(Exception exception) = _Error;
 
-  const factory RecordingState.uploading() = _Uploading;
+  const factory RecordingState.uploading({required double progress}) =
+      _Uploading;
   const factory RecordingState.uploadSuccess() = _UploadSuccess;
   const factory RecordingState.uploadError(Exception exception) = _UploadError;
 }

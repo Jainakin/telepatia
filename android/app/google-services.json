@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "643872433733",
+    "project_id": "telepatia-f6ba8",
+    "storage_bucket": "telepatia-f6ba8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:643872433733:android:cc9c77d62d3b065caae52c",
+        "android_client_info": {
+          "package_name": "com.example.telepatiadev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "643872433733-bbu18i79mhm1d2j8km7mjgg2bp2dr71h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJS_pn--eBdp4CiyFbh9q4A_BgXDp2P-g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "643872433733-bbu18i79mhm1d2j8km7mjgg2bp2dr71h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../domain/entities/recording_entity.dart';
@@ -11,7 +12,10 @@ final recordingRepositoryProvider = Provider<RecordingRepository>((ref) {
 
 abstract class RecordingRepository {
   Future<Either<Exception, List<RecordingEntity>>> getRecordings();
-  Future<Either<Exception, void>> uploadRecording(RecordingEntity recording);
+  Future<Either<Exception, UploadTask>> uploadRecording(
+      String path, String docId);
+  Future<Either<Exception, String>> makeFirestoreDoc();
+  Future<Either<Exception, void>> updateFirestoreDoc(String docId);
 }
 
 class RecordingRepositoryImpl implements RecordingRepository {
@@ -31,11 +35,31 @@ class RecordingRepositoryImpl implements RecordingRepository {
   }
 
   @override
-  Future<Either<Exception, void>> uploadRecording(
-      RecordingEntity recording) async {
+  Future<Either<Exception, UploadTask>> uploadRecording(
+      String path, String docId) async {
     try {
-      final recordingModel = RecordingMapper.toModel(recording);
-      await _recordRemoteDataSource.uploadRecording(recordingModel);
+      final uploadTask =
+          await _recordRemoteDataSource.uploadRecording(path, docId);
+      return Right(uploadTask);
+    } catch (e) {
+      return Left(Exception(e));
+    }
+  }
+
+  @override
+  Future<Either<Exception, String>> makeFirestoreDoc() async {
+    try {
+      final docId = await _recordRemoteDataSource.makeFirestoreDoc();
+      return Right(docId);
+    } catch (e) {
+      return Left(Exception(e));
+    }
+  }
+
+  @override
+  Future<Either<Exception, void>> updateFirestoreDoc(String docId) async {
+    try {
+      await _recordRemoteDataSource.updateFirestoreDoc(docId);
       return const Right(null);
     } catch (e) {
       return Left(Exception(e));
