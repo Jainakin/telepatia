@@ -73,6 +73,7 @@ class RecordRemoteDataSource {
 
   Future<void> updateFirestoreDoc(String docId) async {
     try {
+      print('updating firestore doc: $docId');
       final storageRef =
           FirebaseStorage.instance.ref().child('recordings/$docId.wav');
       final downloadUrl = await storageRef.getDownloadURL();
@@ -87,7 +88,7 @@ class RecordRemoteDataSource {
         'downloadUrl': downloadUrl,
       });
     } catch (e) {
-      print('error making firestore doc: $e');
+      print('error updating firestore doc: $e');
       throw Exception(e);
     }
   }

@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import '../../../../common/domain/use_case/usecase.dart';
 import '../../domain/use_cases/sign_in_with_google_usecase.dart';
 import 'auth_state.dart';
 import 'firebase_auth_provider.dart';

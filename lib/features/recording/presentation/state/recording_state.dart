@@ -8,9 +8,15 @@ part 'recording_state.freezed.dart';
 class RecordingState with _$RecordingState {
   const factory RecordingState.initial() = _Initial;
   const factory RecordingState.loading() = _Loading;
+  const factory RecordingState.recording() = _Recording;
   const factory RecordingState.success(List<RecordingEntity> recordings) =
       _Success;
   const factory RecordingState.error(Exception exception) = _Error;
+
+  const factory RecordingState.playing() = _Playing;
+  const factory RecordingState.buffering() = _Buffering;
+  const factory RecordingState.paused() = _Paused;
+  const factory RecordingState.stopped() = _Stopped;
 
   const factory RecordingState.uploading({required double progress}) =
       _Uploading;
