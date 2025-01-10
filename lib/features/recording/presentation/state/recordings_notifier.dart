@@ -41,8 +41,6 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
   String? _currentRecordingPath;
   bool _isRecording = false;
 
-  // Stream<amp.Amplitude>? _amplitudeStream;
-
   RecordingsNotifier({
     required GetRecordingsUseCase getRecordingsUseCase,
     required UploadRecordingUseCase uploadRecordingUseCase,
@@ -68,7 +66,6 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
       (failure) => state = RecordingState.error(failure),
       (recordings) {
         _recordings = recordings.reversed.toList();
-        print('recordings length: ${_recordings.length}');
         state = RecordingState.success(_recordings);
       },
     );
@@ -96,15 +93,7 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
         path: filePath,
       );
 
-      // _amplitudeStream = _audioRecorder
-      //     .onAmplitudeChanged(const Duration(milliseconds: 50))
-      //     .map(
-      //       (a) => amp.Amplitude(current: a.current, max: a.max),
-      //     )
-      //     .asBroadcastStream();
-
       _isRecording = true;
-
       _currentRecordingPath = filePath;
       state = const RecordingState.success([]);
     } catch (e) {
@@ -117,16 +106,12 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
       await _audioRecorder.stop();
       _audioRecorder.dispose();
       _audioRecorder = AudioRecorder();
-      // _amplitudeStream = null;
       _isRecording = false;
       if (_currentRecordingPath != null) {
         state = RecordingState.success(_recordings);
-        // await uploadRecording();
       }
-
       await uploadRecording();
     } catch (e) {
-      print('error: $e');
       state =
           RecordingState.error(Exception('Error while stopping recording: $e'));
     }
@@ -147,57 +132,51 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
   Future<void> uploadRecording() async {
     if (_currentRecordingPath != null) {
       final failureOrDocId = await _makeFirestoreDocUseCase(NoParams());
-      failureOrDocId
-          .fold((failure) => state = RecordingState.uploadError(failure),
-              (docId) async {
-        final failureOrUploadTask = await _uploadRecordingUseCase(
-          {'path': _currentRecordingPath!, 'docId': docId},
-        );
+      failureOrDocId.fold(
+        (failure) => state = RecordingState.uploadError(failure),
+        (docId) async {
+          final failureOrUploadTask = await _uploadRecordingUseCase(
+            {'path': _currentRecordingPath!, 'docId': docId},
+          );
 
-        failureOrUploadTask.fold(
-          (failure) => state = RecordingState.uploadError(failure),
-          (uploadTask) {
-            state = const RecordingState.uploading(progress: 0.0);
-            uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
-              switch (taskSnapshot.state) {
-                case TaskState.running:
-                  print('Upload is running');
-                  if (taskSnapshot.bytesTransferred == 0 &&
-                      taskSnapshot.totalBytes == 0) {
-                    state = const RecordingState.uploading(progress: 0.0);
-                  } else {
-                    final progress = 100.0 *
-                        (taskSnapshot.bytesTransferred /
-                            taskSnapshot.totalBytes);
-                    print("Upload is $progress% complete.");
+          failureOrUploadTask.fold(
+            (failure) => state = RecordingState.uploadError(failure),
+            (uploadTask) {
+              state = const RecordingState.uploading(progress: 0.0);
+              uploadTask.snapshotEvents
+                  .listen((TaskSnapshot taskSnapshot) async {
+                switch (taskSnapshot.state) {
+                  case TaskState.running:
+                    final progress = taskSnapshot.bytesTransferred == 0 &&
+                            taskSnapshot.totalBytes == 0
+                        ? 0.0
+                        : 100.0 *
+                            (taskSnapshot.bytesTransferred /
+                                taskSnapshot.totalBytes);
                     state =
                         RecordingState.uploading(progress: progress / 100.0);
-                  }
-                  break;
-                case TaskState.paused:
-                  print("Upload is paused.");
-                  break;
-                case TaskState.canceled:
-                  print("Upload was canceled");
-                  state = RecordingState.uploadError(
-                      Exception('Upload was canceled'));
-                  break;
-                case TaskState.error:
-                  print("Upload failed.");
-                  state =
-                      RecordingState.uploadError(Exception('Upload failed'));
-                  break;
-                case TaskState.success:
-                  print("Upload completed successfully.");
-                  state = const RecordingState.uploadSuccess();
-                  await _updateFirestoreDocUseCase.call(docId);
-                  await getRecordings();
-                  break;
-              }
-            });
-          },
-        );
-      });
+                    break;
+                  case TaskState.paused:
+                    break;
+                  case TaskState.canceled:
+                    state = RecordingState.uploadError(
+                        Exception('Upload was canceled'));
+                    break;
+                  case TaskState.error:
+                    state =
+                        RecordingState.uploadError(Exception('Upload failed'));
+                    break;
+                  case TaskState.success:
+                    state = const RecordingState.uploadSuccess();
+                    await _updateFirestoreDocUseCase.call(docId);
+                    await getRecordings();
+                    break;
+                }
+              });
+            },
+          );
+        },
+      );
     }
   }
 
@@ -207,15 +186,8 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
   }
 
   AudioPlayer get audioPlayer => _audioPlayer;
-
   AudioRecorder get audioRecorder => _audioRecorder;
-
   bool get isRecording => _isRecording;
-
   String? get currentRecordingPath => _currentRecordingPath;
-
   List<RecordingEntity> get recordings => _recordings;
-
-  // Stream<amp.Amplitude>? get amplitudeStream =>
-  // _amplitudeStream!.asBroadcastStream();
 }

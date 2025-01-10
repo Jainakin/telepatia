@@ -9,13 +9,13 @@ final makeFirestoreDocUseCaseProvider =
   return MakeFirestoreDocUseCase(ref.watch(recordingRepositoryProvider));
 });
 
-class MakeFirestoreDocUseCase extends UseCase<String, void> {
+class MakeFirestoreDocUseCase extends UseCase<String, NoParams> {
   final RecordingRepository _recordingRepository;
 
   MakeFirestoreDocUseCase(this._recordingRepository);
 
   @override
-  Future<Either<Exception, String>> call(void args) async {
+  Future<Either<Exception, String>> call(NoParams params) async {
     final failureOrDocId = await _recordingRepository.makeFirestoreDoc();
     return failureOrDocId.fold(
       (failure) => Left(failure),
