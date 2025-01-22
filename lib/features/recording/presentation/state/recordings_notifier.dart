@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 import 'dart:math';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../common/domain/use_case/usecase.dart';
 import '../../domain/entities/recording_entity.dart';
@@ -95,14 +96,19 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
 
       _isRecording = true;
       _currentRecordingPath = filePath;
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('currentRecordingPath', filePath);
+
       state = const RecordingState.success([]);
     } catch (e) {
+      print("startRecording error is $e");
       state = RecordingState.error(Exception('Error while recording: $e'));
     }
   }
 
-  Future<void> _stopRecording() async {
+  Future<void> stopRecording() async {
     try {
+      print('stopRecording is called');
       await _audioRecorder.stop();
       _audioRecorder.dispose();
       _audioRecorder = AudioRecorder();
@@ -110,17 +116,22 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
       if (_currentRecordingPath != null) {
         state = RecordingState.success(_recordings);
       }
+      print("upload is called");
       await uploadRecording();
     } catch (e) {
+      print("stopRecording error is $e");
       state =
           RecordingState.error(Exception('Error while stopping recording: $e'));
     }
   }
 
   Future<void> record() async {
+    print("record is called");
     if (await _audioRecorder.isRecording()) {
-      await _stopRecording();
+      print("record is stopped");
+      await stopRecording();
     } else {
+      print("record is started");
       if (await _audioRecorder.hasPermission()) {
         await _startRecording();
       } else {
@@ -130,6 +141,9 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
   }
 
   Future<void> uploadRecording() async {
+    print("upload is called");
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    _currentRecordingPath = prefs.getString('currentRecordingPath');
     if (_currentRecordingPath != null) {
       final failureOrDocId = await _makeFirestoreDocUseCase(NoParams());
       failureOrDocId.fold(
@@ -177,6 +191,8 @@ class RecordingsNotifier extends StateNotifier<RecordingState> {
           );
         },
       );
+    } else {
+      print("recording path is null");
     }
   }
 

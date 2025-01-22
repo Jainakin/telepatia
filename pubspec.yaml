@@ -53,6 +53,8 @@ dependencies:
   intl: ^0.20.1
   waveform_flutter: ^1.2.0
   flutter_animated_progress: ^1.2.1
+  flutter_background_service: ^5.1.0
+  shared_preferences: ^2.3.5
  
 
 dev_dependencies:

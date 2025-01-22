@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:telepatia/features/auth/presentation/screens/sign_in_screen.dart';
 
+import 'features/recording/data/data_source/service.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await initializeService();
   runApp(
     const ProviderScope(child: Telepatia()),
   );

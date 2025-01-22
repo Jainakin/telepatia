@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animated_progress/flutter_animated_progress.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waveform_flutter/waveform_flutter.dart';
 
 import '../state/recordings_notifier.dart';
 
-class RecordingBar extends ConsumerWidget {
+class RecordingBar extends ConsumerStatefulWidget {
   const RecordingBar({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<RecordingBar> createState() => _RecordingBarState();
+}
+
+class _RecordingBarState extends ConsumerState<RecordingBar> {
+  bool isRecording = false;
+  @override
+  Widget build(BuildContext context) {
     final recordingState = ref.watch(recordingsNotifierProvider);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -66,7 +73,17 @@ class RecordingBar extends ConsumerWidget {
             },
           ),
           GestureDetector(
-            onTap: () => ref.read(recordingsNotifierProvider.notifier).record(),
+            onTap: () async {
+              setState(() {
+                isRecording = !isRecording;
+              });
+              // if (isRecording) {
+              // FlutterBackgroundService().invoke('record');
+              // } else {
+              ref.read(recordingsNotifierProvider.notifier).record();
+              // FlutterBackgroundService().invoke('upload');
+              // }
+            },
             child: Container(
               width: 50,
               height: 50,

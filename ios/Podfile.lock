@@ -1233,6 +1233,8 @@ PODS:
     - GoogleUtilities/Environment (~> 8.0)
     - GTMSessionFetcher/Core (< 5.0, >= 3.4)
   - Flutter (1.0.0)
+  - flutter_background_service_ios (0.0.3):
+    - Flutter
   - google_sign_in_ios (0.0.1):
     - AppAuth (>= 1.7.4)
     - Flutter
@@ -1376,6 +1378,9 @@ PODS:
   - RecaptchaInterop (100.0.0)
   - record_darwin (1.0.0):
     - Flutter
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
 
 DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
@@ -1384,10 +1389,12 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
+  - flutter_background_service_ios (from `.symlinks/plugins/flutter_background_service_ios/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
   - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - record_darwin (from `.symlinks/plugins/record_darwin/ios`)
+  - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
 
 SPEC REPOS:
   trunk:
@@ -1428,6 +1435,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
     :path: Flutter
+  flutter_background_service_ios:
+    :path: ".symlinks/plugins/flutter_background_service_ios/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/darwin"
   just_audio:
@@ -1436,6 +1445,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   record_darwin:
     :path: ".symlinks/plugins/record_darwin/ios"
+  shared_preferences_foundation:
+    :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
 
 SPEC CHECKSUMS:
   abseil: d121da9ef7e2ff4cab7666e76c5a3e0915ae08c3
@@ -1458,6 +1469,7 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: a4e5dfca3e210633bb3a3dfb94176c019211948b
   FirebaseStorage: 52fb65a69d3e87675186881a08e2a5db86452ace
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_background_service_ios: e30e0d3ee69e4cee66272d0c78eacd48c2e94aac
   google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
   GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
@@ -1471,6 +1483,7 @@ SPEC CHECKSUMS:
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   record_darwin: 3b1a8e7d5c0cbf45ad6165b4d83a6ca643d929c3
+  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
 
 PODFILE CHECKSUM: 9c46fd01abff66081b39f5fa5767b3f1d0b11d76
 
